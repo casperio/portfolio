@@ -19,7 +19,7 @@ the portfolio assigned to them.
 
 ### Instructions
 Providing Java 8 **JDK** and Maven 3 or higher are installed, the project can be run from the command line:<br/>
-mvn clean install exec:java -Dexec.args="--inputDirectory=<dir1> --outputDirectory=<dir2>"
+mvn clean install exec:java -Dexec.args="--inputDirectory=\<dir1\> --outputDirectory=\<dir2\>"
 
 For example:<br/>
 mvn clean install exec:java -Dexec.args="--inputDirectory=c:\in --outputDirectory=c:\out"
