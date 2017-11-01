@@ -5,9 +5,12 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +42,11 @@ public class PortfolioController {
         };
     }
 
+    @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "File not found")
+    @ExceptionHandler(FileNotFoundException.class)
+    public void fileNotFound() {
+    }
+
     /**
      * Writes an array of JSON objects by reading the CSV file line-by-line
      * and transforming each row to a JSON object
@@ -47,8 +55,12 @@ public class PortfolioController {
      * an error occurs while writing to the output stream
      */
     private void processCsvFile(OutputStream out) throws IOException {
-        File filePath = new File(portfolioCsvFilename);
         JsonFactory factory = new JsonFactory();
+        File filePath = new File(portfolioCsvFilename);
+
+        if (!filePath.exists()) {
+            throw new FileNotFoundException();
+        }
 
         try (BufferedReader reader = new BufferedReader((new InputStreamReader(new FileInputStream(filePath))));
              JsonGenerator generator = factory.createGenerator(out)) {
