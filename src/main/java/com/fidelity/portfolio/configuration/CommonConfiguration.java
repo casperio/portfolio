@@ -17,19 +17,19 @@ public class CommonConfiguration {
 
     @Bean(name = "inboundDirectory")
     @Qualifier("input")
-    public File inboundDirectory(@Value("${directory.input}") String path) throws IOException {
+    public File inboundDirectory(@Value("${inputDirectory}") String path) throws IOException {
         return FileUtils.makeDirectory(path);
     }
 
     @Bean(name = "outboundDirectory")
     @Qualifier("output")
-    public File outboundDirectory(@Value("${directory.output}") String path) {
+    public File outboundDirectory(@Value("${outputDirectory}") String path) {
         return FileUtils.makeDirectory(path);
     }
 
     @Bean(name = "outputPortfolioFile")
     @Qualifier("outputPortfolioFile")
-    public String outputPortfolioFile(@Value("${directory.output}") String path) {
+    public String outputPortfolioFile(@Value("${outputDirectory}") String path) {
         return path + File.separator + "portfolio_customers.csv";
     }
 }
