@@ -1,11 +1,18 @@
 ## Project Title
 
-**FI Assessment**
+FI Assessment
 
 ## Description
 
 This project is an attempt to implement the system described by FI for the second round interview
-scheduled for Monday November 6th at 12:00 (UTC)
+scheduled for Monday November 6th at 12:00 (UTC).
+The project describes a kind of Portfolio "assigner" that reads an input file containing the name,
+date of birth, and asset-value of clients.
+This file is read and processed in such a way that each client, based on their age, is assigned a
+type of portfolio.
+The output of the program is a file which contains the name of each client along with the name of
+the portfolio assigned to them
+
 
 
 
