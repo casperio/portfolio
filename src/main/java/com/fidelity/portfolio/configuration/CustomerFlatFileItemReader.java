@@ -9,6 +9,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
+/**
+ * FlatFileItemReader to parse CSV file into a POJO
+ * The bean has a spring-batch step scope to make sure that
+ * a new instance is injected for each new step
+ */
 @Component
 @Scope("step")
 public class CustomerFlatFileItemReader extends FlatFileItemReader<Customer> {

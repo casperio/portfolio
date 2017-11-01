@@ -21,23 +21,21 @@ public enum PortfolioModel {
         this.ageUpperBound = ageUpperBound;
     }
 
-    public float getEquityFundsPct() {
-        return equityFundsPct;
-    }
-
-    public float getBondFundsPct() {
-        return bondFundsPct;
-    }
-
-    public float getCashFundsPct() {
-        return cashFundsPct;
-    }
-
     public int getAgeLowerBound() {
         return ageLowerBound;
     }
 
     public int getAgeUpperBound() {
         return ageUpperBound;
+    }
+
+    @Override
+    public String toString() {
+        return "PortfolioModel{" + "equityFundsPct=" + equityFundsPct +
+                ", bondFundsPct=" + bondFundsPct +
+                ", cashFundsPct=" + cashFundsPct +
+                ", ageLowerBound=" + ageLowerBound +
+                ", ageUpperBound=" + ageUpperBound +
+                '}';
     }
 }

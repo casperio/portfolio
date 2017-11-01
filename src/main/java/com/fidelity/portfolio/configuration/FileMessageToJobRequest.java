@@ -15,32 +15,47 @@ import java.io.File;
 import static org.apache.commons.text.CharacterPredicates.DIGITS;
 import static org.apache.commons.text.CharacterPredicates.LETTERS;
 
+/**
+ * Implements the transformer component of the spring integration graph
+ */
 public class FileMessageToJobRequest {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileMessageToJobRequest.class);
 
+    @Autowired
+    private Job job;
+
     private RandomStringGenerator generator;
 
-    public FileMessageToJobRequest() {
+    FileMessageToJobRequest() {
         generator = new RandomStringGenerator.Builder()
                 .withinRange('0', 'z')
                 .filteredBy(LETTERS, DIGITS)
                 .build();
     }
 
-    @Autowired
-    private Job job;
-
-    public void setJob(Job job) {
-        this.job = job;
-    }
-
+    /**
+     * Transforms a File message to a JobLaunchRequest message
+     * This method also renames the input file to make sure the File message
+     * does not get sent back again by the input-file adapter
+     *
+     * @param message Input file message
+     * @return JobLaunch request
+     */
     @Transformer(inputChannel = "fileChannel", outputChannel = "jobLaunchChannel")
     public JobLaunchRequest toRequest(Message<File> message) {
-        LOG.info("Mehdi toRequest invoked:  " + message.getPayload().getAbsolutePath());
+        LOG.info("Spring Integration graph transformer toRequest invoked:  " + message.getPayload().getAbsolutePath());
         File newFile = new File(message.getPayload().getAbsolutePath() + "_" + generator.generate(8));
-        new File(message.getPayload().getAbsolutePath()).renameTo(newFile);
-        LOG.info("Mehdi new filename is: " + newFile.getAbsolutePath());
+        File outputFile = new File(message.getPayload().getAbsolutePath());
+        if (outputFile.renameTo(newFile)) {
+            LOG.debug("[" + message.getPayload().getAbsolutePath() + "] -> [" + outputFile.getAbsolutePath() + "]");
+        } else {
+            LOG.error("Failed to rename file [" + message.getPayload().getAbsolutePath()
+                    + "] to [" + newFile.getAbsolutePath() + "]");
+            throw new RuntimeException("Failed to rename file [" + message.getPayload().getAbsolutePath()
+                    + "] to [" + newFile.getAbsolutePath() + "]");
+        }
+        LOG.info("Spring Integration graph transformer toRequest new filename is: " + newFile.getAbsolutePath());
         JobParametersBuilder jobParametersBuilder = new JobParametersBuilder();
         jobParametersBuilder.addString("fileParameterName", newFile.getAbsolutePath());
         return new JobLaunchRequest(job, jobParametersBuilder.toJobParameters());

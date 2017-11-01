@@ -8,17 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 
 
+/**
+ * Implementation of the spring batch ItemProcessor
+ */
 public class CustomerItemProcessor implements ItemProcessor<Customer, Customer> {
 
-    AssignmentStrategy assignmentStrategy;
+    private AssignmentStrategy assignmentStrategy;
 
     @Autowired
-    public CustomerItemProcessor(AssignmentStrategy assignmentStrategy) {
+    CustomerItemProcessor(AssignmentStrategy assignmentStrategy) {
         this.assignmentStrategy = assignmentStrategy;
     }
 
+    /**
+     * Implements the ItemProcessor stage of the spring batch step
+     * @param customer input customer object
+     * @return customer object with an assigned portfolio
+     */
     @Override
-    public Customer process(Customer customer) throws Exception {
+    public Customer process(Customer customer) {
         assignmentStrategy.assign(LocalDate.now(), customer);
         return customer;
     }
