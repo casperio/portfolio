@@ -11,7 +11,7 @@ date of birth, and asset-value of clients.
 This file is read and processed in such a way that each client, based on their age, is assigned a
 type of portfolio.
 The output of the program is a file which contains the name of each client along with the name of
-the portfolio assigned to them
+the portfolio assigned to them.
 
 ## Development
 This project was developed using the following tools:
@@ -23,7 +23,7 @@ This project was developed using the following tools:
 Providing Java 8 **JDK** and Maven 3 or higher are installed, the project can be run from the command line:
 mvn clean install exec:java -Dexec.args="--inputDirectory=<dir1> --outputDirectory=<dir2>"
 
-For example:
+For example:  
 mvn clean install exec:java -Dexec.args="--inputDirectory=c:\in --outputDirectory=c:\out"
 
 
