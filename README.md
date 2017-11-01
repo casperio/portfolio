@@ -1,7 +1,7 @@
 ## Project Title
 
-FI Assessment
-Kenza & Mehdi
+FI Assessment<br/>
+Kenza & **Mehdi**
 
 ## Description
 This project is an attempt to implement the system described by FI for the second round interview
