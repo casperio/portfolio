@@ -24,12 +24,26 @@ mvn clean install exec:java -Dexec.args="--inputDirectory=*<dir1>* --outputDirec
 For example:<br/>
 mvn clean install exec:java -Dexec.args="--inputDirectory=c:\in --outputDirectory=c:\out"
 
+### Triggering Customer file processing
+In order to trigger file processing simply drop a CSV file named **customers.csv**, formatted as specified below, to the
+input directory specified as one of the program arguments.<br/>
+This should cause the file to be processed resulting in an output named **portfolio_customers.csv** being to written to
+the output directory specified as one of the program arguments
+
+### Service endpoint
+When run, the program will bind to port 8080 on the localhost. <br/>
+
+A list of portfolio-assigned customers can be downloaded in JSON format from:<br/>
+- localhost:8080/v1/portfolio/all
+
 ## Input-file format
+The input file should be named:  customers.csv  <br/>
+
 The input file containing the client details should be a **CSV** file formatted as follows:
 firstName,lastName,dateOfBirth,assetsValue
 
 For example:<br/>
-Matthew,Murdock,1964-04-29,4553068.46
+*Matthew,Murdock,1964-04-29,4553068.46*
 
 **Note** Date should be specified in the format YYYY-MM-dd
 
