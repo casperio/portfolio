@@ -18,7 +18,7 @@ the portfolio assigned to them.
 -  JAVA_HOME should point to the **JDK 8** base directory
 
 ### Instructions
-Providing Java 8 **JDK** and Maven 3 or higher are installed, the project can be run from the command line:<br/>
+Providing Java 8 **JDK** and Maven 3 or higher are installed, the project can be built and run from the command line:<br/>
 mvn clean install exec:java -Dexec.args="--inputDirectory=\<dir1\> --outputDirectory=\<dir2\>"
 
 For example:<br/>
