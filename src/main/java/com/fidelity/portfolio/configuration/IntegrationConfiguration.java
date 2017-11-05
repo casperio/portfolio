@@ -19,10 +19,13 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.file.FileReadingMessageSource;
+import org.springframework.integration.file.filters.CompositeFileListFilter;
+import org.springframework.integration.file.filters.LastModifiedFileListFilter;
 import org.springframework.integration.file.filters.SimplePatternFileListFilter;
 import org.springframework.messaging.MessageChannel;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Spring-integration java config class:
@@ -55,9 +58,15 @@ public class IntegrationConfiguration {
     @Bean
     @InboundChannelAdapter(value = "fileChannel", poller = @Poller(fixedDelay = "1000"))
     public MessageSource<File> fileReadingMessageSource() {
+        SimplePatternFileListFilter simplePatternFileListFilter = new SimplePatternFileListFilter("customers.csv");
+        LastModifiedFileListFilter lastModifiedFileListFilter = new LastModifiedFileListFilter();
+        lastModifiedFileListFilter.setAge(10, TimeUnit.SECONDS);
+        CompositeFileListFilter<File> compositeFileListFilter = new CompositeFileListFilter<>();
+        compositeFileListFilter.addFilters(simplePatternFileListFilter, lastModifiedFileListFilter);
+
         FileReadingMessageSource reader = new FileReadingMessageSource();
         reader.setDirectory(inboundDirectoryFile);
-        reader.setFilter(new SimplePatternFileListFilter("customers.csv"));
+        reader.setFilter(compositeFileListFilter);
         return reader;
     }
 
